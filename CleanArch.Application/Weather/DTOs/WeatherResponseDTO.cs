@@ -1,6 +1,6 @@
 ﻿namespace CleanArch.Application.Weather.DTOs;
 
-public class WeatherInformationDTO
+public class WeatherResponseDTO
 {
 
     public string cod { get; set; }

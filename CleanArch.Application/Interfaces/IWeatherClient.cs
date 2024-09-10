@@ -1,8 +1,9 @@
 ﻿using CleanArch.Domain.CityAggregate;
+using CleanArch.Domain.WeatherAggrigate;
 
-namespace CleanArch.Domain.WeatherAggrigate.Repository;
+namespace CleanArch.Application.Interfaces;
 
-public interface IWeatherRepository
+public interface IWeatherClient
 {
     Task<WeatherInformation> GetWeather(HttpClient Client, MinimalCity CityInformation);
 }

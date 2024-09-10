@@ -1,33 +1,44 @@
 ﻿using CleanArch.Application.City.DTOs;
 using CleanArch.Application.Weather.DTOs;
 using CleanArch.Application.Weather.Mapper;
-using CleanArch.Domain.CityAggregate.Repository;
-using CleanArch.Domain.WeatherAggrigate.Repository;
+using CleanArch.Application.Interfaces;
 
 namespace CleanArch.Application.Services;
 
 public class WeatherService : IWeatherService
 {
-    private readonly ICityRepository _cityRepository;
-    private readonly IWeatherRepository _weatherRepository;
+    private readonly ICityClient _cityClient;
+    private readonly IWeatherClient _weatherClient;
     private readonly HttpClient client;
 
 
-    public WeatherService(ICityRepository cityRepositoryl, IWeatherRepository weatherRepository)
+    public WeatherService(ICityClient cityClient, IWeatherClient weatherClient)
     {
-        _cityRepository = cityRepositoryl;
-        _weatherRepository = weatherRepository;
+        _cityClient = cityClient;
+        _weatherClient = weatherClient;
         client = new HttpClient();
     }
 
-    public async Task<WeatherInformationDTO> GetWeather(string cityName)
+    public async Task<WeatherResponseDTO> GetWeather(string cityName)
     {
-        var cityDTO = new CityDTO(cityName);
-        var cityInformation = await _cityRepository.GetCityInformation(client, cityDTO.CityName);
+        try
+        {
+            var cityDTO = new CityDTO(cityName);
+            var cityInformation = await _cityClient.GetCityInformation(client, cityDTO.CityName);
 
-        var weatherInformation = await _weatherRepository.GetWeather(client, cityInformation);
-        var result = WeatherMapper.InformationToDTO(weatherInformation);
+            var weatherInformation = await _weatherClient.GetWeather(client, cityInformation);
+            var result = WeatherMapper.InformationToDTO(weatherInformation);
 
-        return result;
+            return result;
+        }
+        catch
+        {
+            return new WeatherResponseDTO()
+            {
+                cod = "Error",
+                cnt = -1,
+                message = 500
+            };
+        }
     }
 }

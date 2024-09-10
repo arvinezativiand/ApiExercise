@@ -1,5 +1,6 @@
-using CleanArch.Application.Services;
+using CleanArch.Application.Interfaces;
 using CleanArch.Application.Weather.DTOs;
+using DotNetEnv;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Controllers;
@@ -13,11 +14,10 @@ public class WeatherController : ControllerBase
         _weather = weather;
     }
 
-
     [HttpGet("{cityName}")]
-    public async Task<WeatherInformationDTO> Weather(string cityName)
+    public async Task<WeatherResponseDTO> Weather(string cityName)
     {
-
+        Env.Load();
         return await _weather.GetWeather(cityName);
     }
 }

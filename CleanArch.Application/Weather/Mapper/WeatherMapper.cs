@@ -5,9 +5,9 @@ namespace CleanArch.Application.Weather.Mapper;
 
 public class WeatherMapper
 {
-    public static WeatherInformationDTO InformationToDTO(WeatherInformation information)
+    public static WeatherResponseDTO InformationToDTO(WeatherInformation information)
     {
-        return new WeatherInformationDTO()
+        return new WeatherResponseDTO()
         {
             cnt = information.cnt,
             cod = information.cod,
