@@ -8,8 +8,6 @@ namespace CleanArch.Infrastructure.City;
 
 public class WeatherClient : IWeatherClient
 {
-    public string GetUri(MinimalCity city) => $"http://api.openweathermap.org/data/2.5/forecast?lat={city.lat}&lon={city.lon}&appid=6186dda957032731c69f5fb961490fde";
-
     public async Task<WeatherInformation> GetWeather(HttpClient Client, MinimalCity city)
     {
         var baseUri = Environment.GetEnvironmentVariable("BASE_WEATHER_URI");
@@ -23,6 +21,7 @@ public class WeatherClient : IWeatherClient
         {
             throw new ArgumentNullException();
         }
+
         return Jrespone;
     }
 }

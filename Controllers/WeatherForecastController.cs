@@ -4,6 +4,7 @@ using DotNetEnv;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public class WeatherController : ControllerBase

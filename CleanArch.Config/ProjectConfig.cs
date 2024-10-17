@@ -13,6 +13,7 @@ public class ProjectConfig
         services.AddTransient<IWeatherService, WeatherService>();
         services.AddTransient<IWeatherClient, WeatherClient>();
         services.AddTransient<ICityClient, CityClient>();
+        services.AddTransient<ICache, MemoryCache>();
     }
 }
 

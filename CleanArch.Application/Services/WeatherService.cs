@@ -10,12 +10,14 @@ public class WeatherService : IWeatherService
     private readonly ICityClient _cityClient;
     private readonly IWeatherClient _weatherClient;
     private readonly HttpClient client;
+    private readonly ICache _cache;
 
 
-    public WeatherService(ICityClient cityClient, IWeatherClient weatherClient)
+    public WeatherService(ICityClient cityClient, IWeatherClient weatherClient, ICache cache)
     {
         _cityClient = cityClient;
         _weatherClient = weatherClient;
+        _cache = cache;
         client = new HttpClient();
     }
 
@@ -29,6 +31,7 @@ public class WeatherService : IWeatherService
             var weatherInformation = await _weatherClient.GetWeather(client, cityInformation);
             var result = WeatherMapper.InformationToDTO(weatherInformation);
 
+            _cache.Set($"{cityDTO.CityName}", result);
             return result;
         }
         catch
