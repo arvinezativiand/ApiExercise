@@ -18,7 +18,6 @@ public class WeatherController : ControllerBase
     [HttpGet("{cityName}")]
     public async Task<WeatherResponseDTO> Weather(string cityName)
     {
-        Env.Load();
         return await _weather.GetWeather(cityName);
     }
 }

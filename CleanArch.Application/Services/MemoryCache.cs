@@ -18,10 +18,12 @@ public class MemoryCache : ICache
     public void Set(string key, WeatherResponseDTO value)
     {
         var serializedValue = JsonConvert.SerializeObject(value);
-        _memoryCache.Set(key, value);
+        _memoryCache.Set(key, value, 
+            absoluteExpiration: DateTimeOffset.Now.AddMinutes(30));
     }
     public WeatherResponseDTO Get(string key)
     {
-        return new WeatherResponseDTO();
+        return _memoryCache.Get<WeatherResponseDTO>(key) ?? null;
+        
     }
 }

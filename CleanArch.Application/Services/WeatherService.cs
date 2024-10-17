@@ -26,10 +26,15 @@ public class WeatherService : IWeatherService
         try
         {
             var cityDTO = new CityDTO(cityName);
+            var result = _cache.Get(cityDTO.CityName);
+            if(result != null)
+            {
+                return result;
+            }
             var cityInformation = await _cityClient.GetCityInformation(client, cityDTO.CityName);
 
             var weatherInformation = await _weatherClient.GetWeather(client, cityInformation);
-            var result = WeatherMapper.InformationToDTO(weatherInformation);
+            result = WeatherMapper.InformationToDTO(weatherInformation);
 
             _cache.Set($"{cityDTO.CityName}", result);
             return result;
